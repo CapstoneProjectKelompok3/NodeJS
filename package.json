@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "prod": "NODE_ENV=production node app.js",
     "dev": "nodemon main.js"
   },
   "type": "module",

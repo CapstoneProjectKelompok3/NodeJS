@@ -9,6 +9,10 @@ app.use(express.urlencoded({extended: true}))
 
 app.use(apiRouter)
 
-app.listen(process.env.SERVER_PORT, () => {
-   console.log(`server started on port ${process.env.SERVER_PORT}`)
+
+const SERVER_PORT = process.env.SERVER_PORT || 3000;
+const HOST = process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";
+
+app.listen(SERVER_PORT, HOST, () => {
+   console.log(`server started on ${HOST}:${HTTP_PORT}`)
 })
