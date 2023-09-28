@@ -62,7 +62,7 @@ export const verifyUser = async (req, res) => {
 
 export const deleteuser = async (req, res) => {
   try {
-    await deleteService(req.params)
+    await deleteService(req)
   } catch (err) {
     return res.status(404).json({
       status_code: 404,

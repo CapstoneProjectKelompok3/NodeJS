@@ -2,6 +2,16 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
+export const getUser = async (userId) => {
+  let data = await prisma.user.findFirst({
+    where: {
+      id: userId
+    }
+  })
+  
+  return data
+}
+
 export const userRegister = async (request) => {
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(request.password, salt);
