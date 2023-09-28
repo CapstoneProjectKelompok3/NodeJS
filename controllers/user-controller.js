@@ -3,6 +3,7 @@ import loginServices from "../services/user/login-services.js"
 import verifyServices from '../services/user/verify-services.js'
 import updateServices from '../services/user/update-services.js'
 import { Prisma } from "@prisma/client";
+import deleteService from "../services/user/delete-service.js";
 
 export const userRegister = async (req, res) => {
   const user = await registerServices(req.body);
@@ -61,7 +62,6 @@ export const updateUser = async (req, res) => {
 };
 
 export const verifyUser = async (req, res) => {
-
   try {
       await verifyServices(req.params)
   } catch (err) {
@@ -77,5 +77,22 @@ export const verifyUser = async (req, res) => {
       result: 'success',
       message: 'user has been activated'
   })
+}
 
+export const deleteuser = async (req, res) => {
+  try {
+    await deleteService(req)
+  } catch (err) {
+    return res.status(404).json({
+      status_code: 404,
+      result: 'not found',
+      message: err
+    })
+  }
+
+  return res.json({
+    status_code: 200,
+    result: 'success',
+    message: 'successfully deleted record data'
+  })
 }

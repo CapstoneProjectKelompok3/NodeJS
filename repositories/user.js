@@ -2,8 +2,17 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
-export const userRegister = async (request) => {
+export const getUser = async (userId) => {
+  let data = await prisma.user.findFirst({
+    where: {
+      id: userId
+    }
+  })
+  
+  return data
+}
 
+export const userRegister = async (request) => {
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(request.password, salt);
 
@@ -15,6 +24,7 @@ export const userRegister = async (request) => {
         email: request.email,
         username: request.username,
         password: hashPassword,
+        level: request.level
       }
     })
   } catch (err) {
@@ -22,8 +32,6 @@ export const userRegister = async (request) => {
   }
 
   return user
-
-
 };
 
 export const userUpdate = async (request) => {
@@ -74,17 +82,31 @@ export const userLogin = async (request) => {
 export const userVerify = async (userId) => {
   let user
 
-    try {
-        user = await prisma.user.update({
-            where: {
-                id: userId
-            },
-            data: {
-                is_activated: true
-            }
-        })
-    } catch (err) {
-        throw err
-    }
+  try {
+      user = await prisma.user.update({
+          where: {
+              id: userId
+          },
+          data: {
+              is_activated: true
+          }
+      })
+  } catch (err) {
+      throw err
+  }
+}
 
+export const userDelete = async (userId) => {
+  try {
+    await prisma.user.update({
+      data: {
+        is_deleted: true
+      },
+      where: {
+        id: userId
+      }
+    })
+  } catch (err) {
+    throw err.meta.cause
+  }
 }
