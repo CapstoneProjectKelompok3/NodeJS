@@ -1,11 +1,11 @@
 import express from "express";
 import { userLogin, userRegister } from "../controllers/user-controller.js";
 import registerMiddleware from "../middleware/register-middleware.js";
-import loginMiddleware from "../middleware/login-middleware.js";
+import { verifyTokenAdmin } from "../middleware/verify-token.js";
 
 const router = express.Router();
 
-router.post("/", registerMiddleware, userRegister);
-router.post("/login", loginMiddleware, userLogin);
+router.post("/register", verifyTokenAdmin, registerMiddleware, userRegister);
+router.post("/login", userLogin);
 
 export default router;

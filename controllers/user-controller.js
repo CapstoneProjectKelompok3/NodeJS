@@ -23,11 +23,19 @@ export const userRegister = async (req, res) => {
 };
 
 export const userLogin = async (req, res) => {
-  const user = await loginServices(req.body);
+  try {
+    const user = await loginServices(req.body);
 
-  return res.json({
-    status_code: 200,
-    result: "success",
-    data: user,
-  });
+    res.status(200).json({
+      status_code: 200,
+      result: "success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status_code: 400,
+      result: "bad request",
+      message: error.message, // Gunakan pesan error yang dilempar
+    });
+  }
 };
