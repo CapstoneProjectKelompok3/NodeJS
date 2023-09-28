@@ -1,30 +1,50 @@
-import { PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+const prisma = new PrismaClient();
 
 export const userRegister = async (request) => {
 
-    let user
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(request.password, salt);
 
-    try {
-        user = await prisma.user.create({
-            data: {
-                email: request.email,
-                username: request.username,
-                password: request.password,
-            }
-        })
-    } catch (err) {
-         throw err
-    }
+  let user
 
-    return user
+  try {
+    user = await prisma.user.create({
+      data: {
+        email: request.email,
+        username: request.username,
+        password: hashPassword,
+      }
+    })
+  } catch (err) {
+    throw err
+  }
 
-}
+  return user
 
-export const userVerify = async (request) => {
 
-    let user
+};
+
+export const userLogin = async (request) => {
+  let data;
+  try {
+    data = await prisma.user.findFirst({
+      where: {
+        email: request.email,
+      },
+    });
+  } catch (err) {
+    throw err;
+  }
+
+  return data;
+};
+
+
+export const userVerify = async () => {
+
+  let user
 
     try {
         user = await prisma.user.update({
@@ -38,7 +58,5 @@ export const userVerify = async (request) => {
     } catch (err) {
         throw err
     }
-
-    return user
 
 }
