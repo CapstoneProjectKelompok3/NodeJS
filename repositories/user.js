@@ -42,14 +42,13 @@ export const userLogin = async (request) => {
 };
 
 
-export const userVerify = async () => {
-
+export const userVerify = async (userId) => {
   let user
 
     try {
         user = await prisma.user.update({
             where: {
-                email: request.email
+                id: userId
             },
             data: {
                 is_activated: true

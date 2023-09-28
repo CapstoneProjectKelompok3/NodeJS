@@ -44,7 +44,7 @@ export const userLogin = async (req, res) => {
 export const verifyUser = async (req, res) => {
 
   try {
-      await verifyServices(req.user)
+      await verifyServices(req.params)
   } catch (err) {
       return res.status(err.code).json({
           status_code: err.code,

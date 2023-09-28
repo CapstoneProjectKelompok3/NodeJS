@@ -1,19 +1,12 @@
-import { userUpdate } from "../../repositories/user"
+import { userVerify } from "../../repositories/user.js"
 
-export default async (user) => {
-
-    if(user.level === 'user') {
-        const error = new Error("you don't have any permission to access this route")
-
-        error.code = 401,
-        error.result = 'unauthorized'
-        throw error
-    }
+export default async (request) => {
 
     let updateUser
+    let params = parseInt(request.userId)
 
     try {
-        updateUser = await userUpdate(user)
+        updateUser = await userVerify(params)
     } catch (err) {
         const error = new Error(err.message)
         
