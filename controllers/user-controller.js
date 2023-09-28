@@ -1,6 +1,7 @@
 import registerServices from "../services/user/register-services.js"
 import loginServices from "../services/user/login-services.js"
 import verifyServices from '../services/user/verify-services.js'
+import updateServices from '../services/user/update-services.js'
 import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
 
@@ -32,6 +33,24 @@ export const userLogin = async (req, res) => {
       status_code: 200,
       result: "success",
       data: user,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status_code: 400,
+      result: "bad request",
+      message: error.message, // Gunakan pesan error yang dilempar
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await updateServices(req);
+    res.status(200).json({
+      status_code: 200,
+      result: "success",
+      message: "data berhasil diperbarui",
+      data: updatedUser
     });
   } catch (error) {
     res.status(400).json({

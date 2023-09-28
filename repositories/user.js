@@ -34,6 +34,35 @@ export const userRegister = async (request) => {
   return user
 };
 
+export const userUpdate = async (request) => {
+  let updatedUser
+  try {
+    // Membuat objek kosong untuk menampung data baru
+    const data = {};
+
+    // Membuat array dari nama-nama field yang ingin diperbarui
+    const fieldsToUpdate = ['email', 'username'];
+
+    // Menggunakan forEach untuk memasukkan data dari request body
+    fieldsToUpdate.forEach((fieldName) => {
+      // Menguji masing-masing field di dalam body untuk dimasukkan ke dalam objek data
+      if (request.body[fieldName]) { // Use request.body[fieldName] to access the request body
+        data[fieldName] = request.body[fieldName];
+      }
+    });
+
+    updatedUser = await prisma.user.update({
+      where: {
+        email: request.user.email,
+      },
+      data: data,
+    });
+  } catch (error) {
+    throw error;
+  }
+  return updatedUser;
+};
+
 export const userLogin = async (request) => {
   let data;
   try {
