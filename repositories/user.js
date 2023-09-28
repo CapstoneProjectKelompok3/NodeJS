@@ -24,6 +24,7 @@ export const userRegister = async (request) => {
         email: request.email,
         username: request.username,
         password: hashPassword,
+        level: request.level
       }
     })
   } catch (err) {

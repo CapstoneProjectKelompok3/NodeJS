@@ -37,6 +37,10 @@ export default async (req, res, next) => {
             .messages({
                 'string.pattern.name': 'username field cannot contains whitespace'
             })
+        ,
+        level: Joi.string()
+            .optional()
+            .valid('user', 'admin', 'superadmin')
     })
 
     try {
