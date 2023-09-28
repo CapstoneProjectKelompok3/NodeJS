@@ -4,6 +4,20 @@ import verifyServices from '../services/user/verify-services.js'
 import updateServices from '../services/user/update-services.js'
 import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
+import fetchService from "../services/user/fetch-service.js";
+
+export const getUser = async (req, res) => {
+
+  const user = await fetchService(req)
+
+  return res.json({
+    status_code: 200,
+    result: 'success',
+    message: 'successfully fetch data user',
+    data: user
+  })
+
+}
 
 export const userRegister = async (req, res) => {
   const user = await registerServices(req.body);
