@@ -8,14 +8,14 @@ import fetchService from "../services/user/fetch-service.js";
 
 export const getUser = async (req, res) => {
 
-  const user = await fetchService(req)
+  const user = await fetchService(req);
 
   return res.json({
     status_code: 200,
     result: 'success',
     message: 'successfully fetch data user',
     data: user
-  })
+  });
 
 }
 
