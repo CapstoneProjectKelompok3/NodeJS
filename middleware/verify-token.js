@@ -64,7 +64,7 @@ export const verifyTokenAdmin = async (req, res, next) => {
       return res.status(401).json({
         status_code: 401,
         result: "Unauthorized",
-        message: "Access restricted to super admin or superadmin only.",
+        message: "Access restricted to super admin or admin only.",
       });
     }
   });

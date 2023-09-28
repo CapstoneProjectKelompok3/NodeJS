@@ -3,24 +3,27 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const userRegister = async (request) => {
-  let data;
+
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(request.password, salt);
+
+  let user
 
   try {
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(request.password, salt);
-
-    data = await prisma.user.create({
+    user = await prisma.user.create({
       data: {
         email: request.email,
         username: request.username,
         password: hashPassword,
-      },
-    });
+      }
+    })
   } catch (err) {
-    throw err;
+    throw err
   }
 
-  return data;
+  return user
+
+
 };
 
 export const userLogin = async (request) => {
@@ -37,3 +40,22 @@ export const userLogin = async (request) => {
 
   return data;
 };
+
+
+export const userVerify = async (userId) => {
+  let user
+
+    try {
+        user = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                is_activated: true
+            }
+        })
+    } catch (err) {
+        throw err
+    }
+
+}
