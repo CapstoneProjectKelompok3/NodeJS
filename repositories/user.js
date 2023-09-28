@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const userRegister = async (request) => {
-
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(request.password, salt);
 
@@ -22,8 +21,6 @@ export const userRegister = async (request) => {
   }
 
   return user
-
-
 };
 
 export const userLogin = async (request) => {
@@ -45,17 +42,31 @@ export const userLogin = async (request) => {
 export const userVerify = async (userId) => {
   let user
 
-    try {
-        user = await prisma.user.update({
-            where: {
-                id: userId
-            },
-            data: {
-                is_activated: true
-            }
-        })
-    } catch (err) {
-        throw err
-    }
+  try {
+      user = await prisma.user.update({
+          where: {
+              id: userId
+          },
+          data: {
+              is_activated: true
+          }
+      })
+  } catch (err) {
+      throw err
+  }
+}
 
+export const userDelete = async (userId) => {
+  try {
+    await prisma.user.update({
+      data: {
+        is_deleted: true
+      },
+      where: {
+        id: userId
+      }
+    })
+  } catch (err) {
+    throw err.meta.cause
+  }
 }
