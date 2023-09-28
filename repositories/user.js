@@ -12,12 +12,14 @@ export const getUser = async (userId) => {
   return data
 }
 
-export const fetchUser = async (level) => {
+export const fetchUser = async (level, skip, take) => {
   const data = await prisma.user.findMany({
     where: {
       level: level,
       is_deleted: false
     },
+    skip: skip,
+    take: take,
     select: {
       id: true,
       email: true,
@@ -27,9 +29,9 @@ export const fetchUser = async (level) => {
       created_at: true,
       updated_at: true
     }
-  })
+  });
 
-  return data
+  return data;
 }
 
 export const userRegister = async (request) => {

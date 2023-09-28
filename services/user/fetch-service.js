@@ -1,13 +1,16 @@
 import { fetchUser } from "../../repositories/user.js"
 
 export default async (request) => {
-	let query
+	let query;
+	let skip = 0, take = 5;
+	let page = parseInt(request.query.page)
 
-	console.log(request.user);
+	if(page && page > 1) skip = (take * page) - take;
+
 	// filter user data based on their role
-	(request.user.level == 'admin') ? query = 'user' : query = 'admin'
+	(request.user.level == 'admin') ? query = 'user' : query = 'admin';
 
-	const user = await fetchUser(query)
+	const user = await fetchUser(query, skip, take);
 
-	return user
+	return user;
 }

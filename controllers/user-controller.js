@@ -7,8 +7,13 @@ import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
 
 export const getUser = async (req, res) => {
-
   const user = await fetchService(req);
+
+  if(req.query.page && !user.length) return res.status(404).json({
+    status_code: 404,
+    result: 'not found',
+    message: 'record data not found'
+  });
 
   return res.json({
     status_code: 200,
@@ -16,7 +21,6 @@ export const getUser = async (req, res) => {
     message: 'successfully fetch data user',
     data: user
   });
-
 }
 
 export const userRegister = async (req, res) => {
