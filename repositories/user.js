@@ -4,10 +4,10 @@ const prisma = new PrismaClient()
 
 export const userRegister = async (request) => {
 
-    let data
+    let user
 
     try {
-        data = await prisma.user.create({
+        user = await prisma.user.create({
             data: {
                 email: request.email,
                 username: request.username,
@@ -18,6 +18,27 @@ export const userRegister = async (request) => {
          throw err
     }
 
-    return data
+    return user
+
+}
+
+export const userVerify = async (request) => {
+
+    let user
+
+    try {
+        user = await prisma.user.update({
+            where: {
+                email: request.email
+            },
+            data: {
+                is_activated: true
+            }
+        })
+    } catch (err) {
+        throw err
+    }
+
+    return user
 
 }
