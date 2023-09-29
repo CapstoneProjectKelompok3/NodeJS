@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Capstone Ecci",
+    "version": "1.0",
+    "description": "Ecci"
+  },
+
+  "servers": [
+    { "url": "http://localhost:3000/" },
+    { "url": "https://api.flattenbot.site/" }
+  ],
+  "paths": {
+    "/users/login": {
+      "post": {
+        "description": "Login as user.",
+        "parameters": [],
+        "tags": ["Login"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "description": "input email",
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyYWppaEBnbWFpbC5jb20iLCJsZXZlbCI6InVzZXIiLCJ1c2VybmFtZSI6InJhamloayIsImlhdCI6MTY5NTg2NDYxNCwiZXhwIjoxNjk1OTUxMDE0fQ.zi8Tsvtt0T-baWsHT43xQTJjKX4UY47tv5l4T3Zd7jg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pending Approve Status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "Pending Admin Approval."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "description": "Register User dan Admin",
+        "tags": ["Register"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "username", "nik", "password", "level"],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "nik": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "level": {
+                    "type": "string",
+                    "description": "jika tambah akun admin baru isi admin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "Success Create User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error brand not found or didn't inserted the required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "username field cannot contains whitespace"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

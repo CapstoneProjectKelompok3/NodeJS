@@ -11,16 +11,16 @@ datasource db {
 }
 
 model User {
-  id              Int           @id @default(autoincrement())
-  email           String        @unique @db.VarChar(255)
-  username        String        @unique @db.VarChar(255)
-  password        String        @db.VarChar(255)
-  level           LevelUser     @default(user)
-  is_activated    Boolean       @default(false)
-  created_at      DateTime      @default(now())
-  updated_at      DateTime      @updatedAt
-  is_deleted      Boolean       @default(false)
-  document        Document?
+  id           Int       @id @default(autoincrement())
+  email        String    @unique @db.VarChar(255)
+  username     String    @unique @db.VarChar(255)
+  password     String    @db.VarChar(255)
+  level        LevelUser @default(user)
+  is_activated Boolean   @default(false)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  is_deleted   Boolean   @default(false)
+  document     Document?
 
   @@map("users")
 }
@@ -32,16 +32,16 @@ enum LevelUser {
 }
 
 model Document {
-  id              Int           @id @default(autoincrement())
-  user            User          @relation(fields: [user_id], references: [id])
-  user_id         Int           @unique
-  fullname        String?       @db.VarChar(255)
-  nik             String        @db.VarChar(255)
-  phone           String?       @db.VarChar(50)
-  gender          Gender?
-  created_at      DateTime      @default(now())
-  updated_at      DateTime      @updatedAt
-  is_deleted      Boolean       @default(false)
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int      @unique
+  fullname   String?  @db.VarChar(255)
+  nik        String   @db.VarChar(255)
+  phone      String?  @db.VarChar(50)
+  gender     Gender?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  is_deleted Boolean  @default(false)
 
   @@map("documents")
 }
@@ -49,4 +49,17 @@ model Document {
 enum Gender {
   male
   female
+}
+
+model Feedback {
+  id             Int      @id @default(autoincrement())
+  user_id        Int      @unique
+  content        String?  @db.VarChar(255)
+  rating         Float
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  is_deleted     Boolean  @default(false)
+  emergencies_id Int
+
+  @@map("feedback")
 }
