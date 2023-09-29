@@ -6,7 +6,7 @@ import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
 
-export const getUser = async (req, res) => {
+export const fetchAllUser = async (req, res) => {
   const user = await fetchService(req);
 
   if(req.query.page && !user.length) return res.status(404).json({
