@@ -3,13 +3,35 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const getUser = async (userId) => {
-  let data = await prisma.user.findFirst({
+  const data = await prisma.user.findFirst({
     where: {
       id: userId
     }
   })
   
   return data
+}
+
+export const fetchUser = async (level, skip, take) => {
+  const data = await prisma.user.findMany({
+    where: {
+      level: level,
+      is_deleted: false
+    },
+    skip: skip,
+    take: take,
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      level: true,
+      is_activated: true,
+      created_at: true,
+      updated_at: true
+    }
+  });
+
+  return data;
 }
 
 export const userRegister = async (request) => {
