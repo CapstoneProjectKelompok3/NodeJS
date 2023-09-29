@@ -5,6 +5,7 @@ import updateServices from '../services/user/update-services.js'
 import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
+import detailService from "../services/user/detail-service.js";
 
 export const fetchAllUser = async (req, res) => {
   const user = await fetchService(req);
@@ -21,6 +22,27 @@ export const fetchAllUser = async (req, res) => {
     message: 'successfully fetch data user',
     data: user
   });
+}
+
+export const detailsUser = async (req, res) => {
+  let user
+
+  try {
+    user = await detailService(req)
+  } catch (err) {
+    return res.status(404).json({
+      status_code: 404,
+      result: 'not found',
+      message: err.mesasge
+    })
+  }
+
+  return res.json({
+    status_code: 200,
+    result: 'success',
+    message: 'successfully get data user',
+    data: user
+  })
 }
 
 export const userRegister = async (req, res) => {
