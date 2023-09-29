@@ -12,6 +12,20 @@ export const getUser = async (userId) => {
   return data
 }
 
+export const detailsUser = async (userId) => {
+  const data = await prisma.user.findFirst({
+    where: {
+      id: userId
+    },
+    include: {
+      document: true
+    }
+  })
+  delete data['password']
+
+  return data
+}
+
 export const fetchUser = async (level, skip, take) => {
   const data = await prisma.user.findMany({
     where: {
