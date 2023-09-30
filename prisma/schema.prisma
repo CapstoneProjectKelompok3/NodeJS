@@ -53,13 +53,13 @@ enum Gender {
 
 model Feedback {
   id             Int      @id @default(autoincrement())
-  user_id        Int      @unique
+  user_id        Int      
   content        String?  @db.VarChar(255)
   rating         Float
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
   is_deleted     Boolean  @default(false)
-  emergencies_id Int
+  emergencies_id Int      @unique
 
   @@map("feedback")
 }

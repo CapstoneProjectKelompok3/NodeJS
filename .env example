@@ -1,3 +1,4 @@
 # server configuration
 SERVER_PORT=
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+PROTOKOL_HTTP=http://ecci.com
