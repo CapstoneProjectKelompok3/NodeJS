@@ -104,7 +104,7 @@
         }
       }
     },
-    "/user/register": {
+    "/users/register": {
       "post": {
         "description": "Register User dan Admin",
         "tags": ["User"],
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/users/{userId}": {
+    "/users/{userid}": {
       "get": {
         "description": "details data user",
         "tags": ["User"],
@@ -355,7 +355,7 @@
         }
       }
     },
-    "/user/verify/{userId}": {
+    "/users/verify/{userId}": {
       "put": {
         "description": "verify data user as admin",
         "tags": ["User"],
@@ -404,7 +404,7 @@
         }
       }
     },
-    "/user/{userId}": {
+    "/users/{userId}": {
       "delete": {
         "description": "soft delete data user",
         "tags": ["User"],
@@ -467,7 +467,7 @@
             }
           }
         ],
-				"tags": ["Feed Back"],
+				"tags": ["Feedback"],
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
