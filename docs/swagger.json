@@ -205,6 +205,11 @@
       "get": {
         "description": "get all data user",
         "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
@@ -213,7 +218,7 @@
             "schema": {
               "type": "number"
             },
-            "value": "page=3",
+            "value": 2,
             "required": false
           }
         ],
@@ -287,13 +292,18 @@
       "get": {
         "description": "details data user",
         "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "description": "data user id",
             "required": true,
-            "value": "/users/3"
+            "value": 3
           }
         ],
         "responses": {
@@ -348,6 +358,11 @@
       "put": {
         "description": "verify data user as admin",
         "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -356,7 +371,8 @@
               "type": "number"
             },
             "description": "data user id",
-            "required": true
+            "required": true,
+            "value": 3
           }
         ],
         "responses": {
@@ -391,6 +407,11 @@
       "delete": {
         "description": "soft delete data user",
         "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "userId",
@@ -399,7 +420,7 @@
               "type": "number"
             },
             "description": "data user id",
-            "value": "/users/3",
+            "value": 3,
             "required": false
           }
         ],
