@@ -120,19 +120,17 @@ export const userLogin = async (request) => {
 };
 
 export const userVerify = async (userId) => {
-  let user;
-
   try {
-    user = await prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        is_activated: true,
-      },
-    });
+      await prisma.user.update({
+          where: {
+              id: userId
+          },
+          data: {
+              is_activated: true
+          }
+      })
   } catch (err) {
-    throw err;
+      throw err.meta.cause
   }
 };
 
