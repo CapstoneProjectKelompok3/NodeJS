@@ -25,12 +25,15 @@ jobs:
       - name: SSH into Server
         run: |
           ssh -i ~/.ssh/id_rsa ubuntu@ec2-3-25-179-166.ap-southeast-2.compute.amazonaws.com << EOF
+          source ~/.nvm/nvm.sh
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ap-southeast-2
           cd NodeJS/
           git pull
           nvm use 18.15
+          npm install -g nodemon
+          npm install
           docker stop ecci-container
           docker rm ecci-container
           docker rmi ecci-api
