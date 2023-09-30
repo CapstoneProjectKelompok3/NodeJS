@@ -8,7 +8,7 @@ export default async (request) => {
     try {
         updateUser = await userVerify(params)
     } catch (err) {
-        const error = new Error(err.message)
+        const error = new Error(err)
         
         error.code = 500,
         error.result = 'internal server error'

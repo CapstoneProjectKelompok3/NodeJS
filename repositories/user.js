@@ -3,34 +3,38 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const getUser = async (userId) => {
-  const data = await prisma.user.findFirst({
-    where: {
-      id: userId
-    }
-  })
-  
-  return data
-}
+  try {
+    const data = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const detailsUser = async (userId) => {
   const data = await prisma.user.findFirst({
     where: {
-      id: userId
+      id: userId,
     },
     include: {
-      document: true
-    }
-  })
-  delete data['password']
+      document: true,
+    },
+  });
+  delete data["password"];
 
-  return data
-}
+  return data;
+};
 
 export const fetchUser = async (level, skip, take) => {
   const data = await prisma.user.findMany({
     where: {
       level: level,
-      is_deleted: false
+      is_deleted: false,
     },
     skip: skip,
     take: take,
@@ -41,18 +45,18 @@ export const fetchUser = async (level, skip, take) => {
       level: true,
       is_activated: true,
       created_at: true,
-      updated_at: true
-    }
+      updated_at: true,
+    },
   });
 
   return data;
-}
+};
 
 export const userRegister = async (request) => {
   const salt = await bcrypt.genSalt();
   const hashPassword = await bcrypt.hash(request.password, salt);
 
-  let user
+  let user;
 
   try {
     user = await prisma.user.create({
@@ -60,29 +64,30 @@ export const userRegister = async (request) => {
         email: request.email,
         username: request.username,
         password: hashPassword,
-        level: request.level
-      }
-    })
+        level: request.level,
+      },
+    });
   } catch (err) {
-    throw err
+    throw err;
   }
 
-  return user
+  return user;
 };
 
 export const userUpdate = async (request) => {
-  let updatedUser
+  let updatedUser;
   try {
     // Membuat objek kosong untuk menampung data baru
     const data = {};
 
     // Membuat array dari nama-nama field yang ingin diperbarui
-    const fieldsToUpdate = ['email', 'username'];
+    const fieldsToUpdate = ["email", "username"];
 
     // Menggunakan forEach untuk memasukkan data dari request body
     fieldsToUpdate.forEach((fieldName) => {
       // Menguji masing-masing field di dalam body untuk dimasukkan ke dalam objek data
-      if (request.body[fieldName]) { // Use request.body[fieldName] to access the request body
+      if (request.body[fieldName]) {
+        // Use request.body[fieldName] to access the request body
         data[fieldName] = request.body[fieldName];
       }
     });
@@ -114,12 +119,9 @@ export const userLogin = async (request) => {
   return data;
 };
 
-
 export const userVerify = async (userId) => {
-  let user
-
   try {
-      user = await prisma.user.update({
+      await prisma.user.update({
           where: {
               id: userId
           },
@@ -128,21 +130,21 @@ export const userVerify = async (userId) => {
           }
       })
   } catch (err) {
-      throw err
+      throw err.meta.cause
   }
-}
+};
 
 export const userDelete = async (userId) => {
   try {
     await prisma.user.update({
       data: {
-        is_deleted: true
+        is_deleted: true,
       },
       where: {
-        id: userId
-      }
-    })
+        id: userId,
+      },
+    });
   } catch (err) {
-    throw err.meta.cause
+    throw err.meta.cause;
   }
-}
+};

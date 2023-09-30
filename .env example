@@ -2,3 +2,4 @@
 SERVER_PORT=
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 TOKEN_SECRET=
+PROTOKOL_HTTP=http://ecci.com

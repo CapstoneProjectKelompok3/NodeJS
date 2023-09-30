@@ -1,0 +1,39 @@
+name: deploy to AWS
+on:
+  pull_request:
+    types:
+      - closed
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create SSH directory
+        run: mkdir -p ~/.ssh
+
+      - name: Setup SSH Key
+        run: |
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa ec2-3-25-179-166.ap-southeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: SSH into Server
+        run: |
+          ssh -i ~/.ssh/id_rsa ubuntu@ec2-3-25-179-166.ap-southeast-2.compute.amazonaws.com << EOF
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ap-southeast-2
+          cd NodeJS/
+          git pull
+          nvm use 18.15
+          docker stop ecci-container
+          docker rm ecci-container
+          docker rmi ecci-api
+          docker build -t ecci-api .
+          docker run -dp 80:3000 --env-file .env --name ecci-container ecci-api
+          EOF
