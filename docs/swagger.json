@@ -346,7 +346,8 @@
               "application/json": {
                 "example": {
                   "status_code": 404,
-                  "result": "not found"
+                  "result": "not found",
+                  "message": "record data not found"
                 }
               }
             }
