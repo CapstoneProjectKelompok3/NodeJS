@@ -33,7 +33,7 @@ export const detailsUser = async (req, res) => {
     return res.status(404).json({
       status_code: 404,
       result: 'not found',
-      message: err.mesasge
+      message: 'record data not found'
     })
   }
 

@@ -15,7 +15,7 @@ export default async (request) => {
       throw new Error(
         "Invalid Password. Please check your password and try again."
       );
-    } else if (data.is_activated === false) {
+    } else if (data.is_activated === false && data.level === 'user') {
       throw new Error("Pending Admin Approval.");
     } else {
       token = jwt.sign(

@@ -104,7 +104,7 @@
         }
       }
     },
-    "/user/register": {
+    "/users/register": {
       "post": {
         "description": "Register User dan Admin",
         "tags": ["User"],
@@ -288,7 +288,7 @@
         }
       }
     },
-    "/users/{userId}": {
+    "/users/{userid}": {
       "get": {
         "description": "details data user",
         "tags": ["User"],
@@ -346,7 +346,8 @@
               "application/json": {
                 "example": {
                   "status_code": 404,
-                  "result": "not found"
+                  "result": "not found",
+                  "message": "record data not found"
                 }
               }
             }
@@ -354,7 +355,7 @@
         }
       }
     },
-    "/user/verify/{userId}": {
+    "/users/verify/{userId}": {
       "put": {
         "description": "verify data user as admin",
         "tags": ["User"],
@@ -502,7 +503,7 @@
         }
       }
     },
-    "/user/{userId}": {
+    "/users/{userId}": {
       "delete": {
         "description": "soft delete data user",
         "tags": ["User"],
@@ -565,7 +566,7 @@
             }
           }
         ],
-				"tags": ["Feed Back"],
+				"tags": ["Feedback"],
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
