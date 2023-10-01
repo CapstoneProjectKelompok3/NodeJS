@@ -404,6 +404,105 @@
         }
       }
     },
+    "/users/update": {
+      "put": {
+        "description": "Update User yang sedang login",
+        "tags": ["User"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "username", "fullname", "nik", "gender"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "harus berformat email@domain.com"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "fullname": {
+                    "type": "string"
+                  },
+                  "nik": {
+                    "type": "string",
+                    "description": "nik harus berisi 16 angka"
+                  },
+                  "gender": {
+                    "type": "string",
+                    "description": "pilihan gender hanya male atau female"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "data berhasil diperbarui"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 400
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "bad request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status_code": {
+                      "type": "number",
+                      "example": 500
+                    },
+                    "result": {
+                      "type": "string",
+                      "example": "server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{userId}": {
       "delete": {
         "description": "soft delete data user",
