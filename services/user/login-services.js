@@ -28,7 +28,15 @@ export default async (request) => {
         process.env.TOKEN_SECRET,
         { expiresIn: "24h" }
       );
-      return token;
+      
+      const response = {
+        user: {
+          level: data.level
+        },
+        token: token
+      }
+        
+      return response;
     }
   } catch (err) {
     throw err;
