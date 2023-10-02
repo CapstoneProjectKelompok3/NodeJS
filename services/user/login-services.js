@@ -31,6 +31,7 @@ export default async (request) => {
       
       const response = {
         user: {
+          id: data.id,
           level: data.level
         },
         token: token
