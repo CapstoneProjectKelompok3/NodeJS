@@ -46,6 +46,7 @@
                   "result": "success",
                   "data": {
                     "user": {
+                      "id": 2,
                       "level": "admin"
                     },
                     "token": "some random token"
