@@ -6,7 +6,7 @@ import apiRouter from './routers/api-router.js'
 
 const app = express()
 const limit = rateLimit({
-   windowMs: (1000 * 60) * 60, // 1 hour,
+   windowMs: (1000 * 60) * 15, // 15 minutes,
    limit: 100,
    standardHeaders: 'draft-7',
    legacyHeaders: false,
