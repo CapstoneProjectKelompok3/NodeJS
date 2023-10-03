@@ -63,3 +63,10 @@ model Feedback {
 
   @@map("feedback")
 }
+
+model Authentication {
+  id    String @db.VarChar(255) @unique @default(uuid())
+  token String @db.Text
+
+  @@map("authentications")
+}
