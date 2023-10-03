@@ -3,13 +3,8 @@ SERVER_PORT=
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
 TOKEN_SECRET=
 PROTOKOL_HTTP=http://ecci.com
+EMAIL_VERIF_URL=http://localhost:3000/users/verify-email
 
 # webmail configuration
-EMAIL_HOST=
-EMAIL_PORT=
-EMAIL_SECURE=true / false
 EMAIL_USER=
-EMAIL_PASSWORD=
-
-# google authrorization
 GOOGLE_APP_PASSWORD=https://support.google.com/accounts/answer/185833?hl=en
