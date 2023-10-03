@@ -5,7 +5,7 @@ export const sendRegisterMail = (receiver, uuid) => {
   return mailer.sendMail({
 		from: process.env.EMAIL_USER,
 		to: receiver,
-		subject: '[Register] Emergency Call Center Indonesia',
+		subject: 'Emergency Call Center Indonesia',
 		html: registerMessage(uuid)
 })
 }
