@@ -6,6 +6,7 @@ import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
 import detailService from "../services/user/detail-service.js";
+import passChangeServices from "../services/user/updatePass-services.js";
 
 export const fetchAllUser = async (req, res) => {
   const user = await fetchService(req);
@@ -99,6 +100,24 @@ export const updateUser = async (req, res) => {
       message: error.message, // Gunakan pesan error yang dilempar
     });
   }
+};
+
+export const updatePass = async (req, res) => {
+  try {
+    await passChangeServices(req);
+  } catch (error) {
+    res.status(400).json({
+      status_code: 400,
+      result: "bad request",
+      message: "ada error saat mencoba mengubah password",
+      error_message: error.message,
+    });
+  }
+  res.status(200).json({
+    status_code: 200,
+    result: "success",
+    message: "password anda berhasil diubah"
+  });
 };
 
 export const verifyUser = async (req, res) => {

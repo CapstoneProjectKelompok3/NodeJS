@@ -104,6 +104,33 @@ export const userUpdate = async (request) => {
   return updatedUser;
 };
 
+export const passChange = async (request) => {
+  let data;
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(request.body.newPass, salt);
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: request.user.email,
+      }
+    });
+    const match = await bcrypt.compare(request.body.currentPass, user.password);
+    if (match) {
+      data = await prisma.user.update({
+        where: {
+          email: request.user.email,
+
+        },
+        data: {
+          password: hashPassword,
+        },
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const userLogin = async (request) => {
   let data;
   try {
