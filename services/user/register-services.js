@@ -1,15 +1,18 @@
-import { documentRegister } from "../../repositories/document.js"
-import { userRegister } from "../../repositories/user.js"
+import { authenticationRegister } from "../../repositories/authentication.js";
+import mailer, { contentMail } from '../../config/mailer.js'
 
 export default async (request) => {
-
     try {
-        let user  = await userRegister(request)
-        await documentRegister(request, user.id)
+        let auth  = await authenticationRegister(request)
+        mailer.sendMail({
+            from: 'ecci-support@setsu.my.id',
+            to: auth.email,
+            subject: 'Emergency Call Center Indonesia',
+            html: contentMail(auth.id)
+        })
     } catch (err) {
-        return err
+        throw err
     }
 
     return true
-
 }

@@ -25,9 +25,12 @@ export const authenticationRegister = async (request) => {
           token: token
         }
       })
+
+      auth.email = request.email
     } catch (err) {
       throw err;
     }
-  
+
+
     return auth;
   };
