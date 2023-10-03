@@ -511,15 +511,18 @@
                 "properties": {
                   "currentPass": {
                     "type": "string",
-                    "description": "password saat ini"
+                    "description": "password saat ini",
+                    "example": "currentpassword123"
                   },
                   "newPass": {
                     "type": "string",
-                    "description": "password baru, harus menggunakan minimal 8 karakter dan setidaknya ada 1 huruf kecil, 1 huruf besar, 1 angka, juga 1 simbol"
+                    "description": "password baru, harus menggunakan minimal 8 karakter dan setidaknya ada 1 huruf kecil, 1 huruf besar, 1 angka, juga 1 simbol",
+                    "example": "NewPassword123!"
                   },
                   "repeatPass": {
                     "type": "string",
-                    "description": "harus sama dengan password baru"
+                    "description": "harus sama dengan password baru",
+                    "example": "NewPassword123!"
                   }
                 }
               }
