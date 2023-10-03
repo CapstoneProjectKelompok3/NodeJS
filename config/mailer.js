@@ -1,12 +1,13 @@
 import nodemailer from 'nodemailer'
+import 'dotenv/config'
 
 const transport = nodemailer.createTransport({
-	host: 'mail.setsu.my.id',
-	port: 465,
-	secure: true,
+	host: process.env.EMAIL_HOST,
+	port: process.env.EMAIL_PORT,
+	secure: process.env.EMAIL_SECURE,
 	auth: {
-		user: 'ecci-support@setsu.my.id',
-		pass: '@Capstone01'
+		user: process.env.EMAIL_USER,
+		pass: process.env.EMAIL_PASSWORD
 	}
 })
 
