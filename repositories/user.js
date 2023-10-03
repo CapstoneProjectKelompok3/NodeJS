@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import 'dotenv/config'
+import bcrypt from 'bcrypt'
 const prisma = new PrismaClient();
 
 export const getUser = async (userId) => {
@@ -51,6 +52,26 @@ export const fetchUser = async (level, skip, take) => {
 
   return data;
 };
+
+export const userRegister = async (request) => {
+  let user;
+
+  try {
+    user = await prisma.user.create({
+      data: {
+        email: request.email,
+        username: request.username,
+        password: await bcrypt.hash(request.password, 10),
+        level: request.level,
+        is_activated: request.is_activated
+      }
+    })
+  } catch (err) {
+    throw err
+  }
+
+  return user
+}
 
 export const userUpdate = async (request) => {
   let updatedUser;
