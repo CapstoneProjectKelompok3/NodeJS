@@ -10,3 +10,6 @@ EMAIL_PORT=
 EMAIL_SECURE=true / false
 EMAIL_USER=
 EMAIL_PASSWORD=
+
+# google authrorization
+GOOGLE_APP_PASSWORD=https://support.google.com/accounts/answer/185833?hl=en

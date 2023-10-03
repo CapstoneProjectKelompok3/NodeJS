@@ -1,15 +1,13 @@
 import 'dotenv/config'
-import { authenticationRegister } from "../../repositories/authentication.js";
 import mailer, { contentMail } from '../../config/mailer.js'
 
 export default async (request) => {
     try {
-        let auth  = await authenticationRegister(request)
         mailer.sendMail({
             from: process.env.EMAIL_USER,
-            to: auth.email,
-            subject: 'Emergency Call Center Indonesia',
-            html: contentMail(auth.id)
+            to: 'fann.fann771@gmail.com',
+            subject: '[Register] Emergency Call Center Indonesia',
+            html: contentMail('berak')
         })
     } catch (err) {
         throw err
