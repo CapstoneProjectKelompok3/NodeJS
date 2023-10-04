@@ -7,6 +7,7 @@ import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
 import detailService from "../services/user/detail-service.js";
 import passChangeServices from "../services/user/updatePass-services.js";
+import resetPassServices from "../services/user/resetPass-services.js";
 
 export const fetchAllUser = async (req, res) => {
   const user = await fetchService(req);
@@ -119,6 +120,25 @@ export const updatePass = async (req, res) => {
     message: "password anda berhasil diubah"
   });
 };
+
+export const resetPass = async (req, res) => {
+  let newPassword;
+  try {
+    newPassword = await resetPassServices(req);
+  } catch (error) {
+    res.status(400).json({
+      status_code: 400,
+      result: "bad request",
+      message: "there is an error while resetting password",
+      error_message: error.message,
+    });
+  }
+  res.status(200).json({
+    status_code: 200,
+    result: "success",
+    message: `password reset success, password was sent to your email`,
+  });
+}
 
 export const verifyUser = async (req, res) => {
   try {

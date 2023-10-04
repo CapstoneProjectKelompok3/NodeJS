@@ -1,5 +1,5 @@
 import express from "express";
-import { updateUser, deleteuser, userLogin, userRegister, verifyUser, fetchAllUser, detailsUser, updatePass } from "../controllers/user-controller.js";
+import { updateUser, deleteuser, userLogin, userRegister, verifyUser, fetchAllUser, detailsUser, updatePass, resetPass } from "../controllers/user-controller.js";
 import registerMiddleware from "../middleware/register-middleware.js";
 import { loginValidation } from "../middleware/login-middleware.js";
 import { verifyToken, verifyTokenAdmin } from "../middleware/verify-token.js";
@@ -15,6 +15,7 @@ router.post("/register", registerMiddleware, userRegister);
 router.post("/login", loginValidation, userLogin);
 router.put('/update', [verifyToken, updateMiddleware], updateUser);
 router.put('/changepass', [verifyToken, passChangeMidlleware], updatePass);
+router.post('/resetpass', resetPass);
 router.put('/verify/:userId', verifyTokenAdmin, verifyUser);
 
 export default router;
