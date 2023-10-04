@@ -160,6 +160,21 @@ export const userVerify = async (userId) => {
   }
 };
 
+export const emailVerify = async (userId) => {
+  try {
+    await prisma.user.update({
+      data: {
+        email_activated: true
+      },
+      where: {
+        id: userId
+      }
+    })
+  } catch (err) {
+    throw err.meta.cause
+  }
+}
+
 export const userDelete = async (userId) => {
   try {
     await prisma.user.update({
