@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique @db.VarChar(255)
-  username     String    @unique @db.VarChar(255)
-  password     String    @db.VarChar(255)
-  level        LevelUser @default(user)
-  is_activated Boolean   @default(false)
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-  is_deleted   Boolean   @default(false)
-  document     Document?
+  id              Int       @id @default(autoincrement())
+  email           String    @unique @db.VarChar(255)
+  username        String    @unique @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  level           LevelUser @default(user)
+  email_activated Boolean   @default(false)
+  is_activated    Boolean   @default(false)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+  is_deleted      Boolean   @default(false)
+  document        Document?
 
   @@map("users")
 }

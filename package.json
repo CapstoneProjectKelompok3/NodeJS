@@ -13,8 +13,11 @@
     "express-rate-limit": "^7.0.2",
     "joi": "^17.10.2",
     "jsonwebtoken": "^9.0.2",
+    "mailer": "^0.6.6",
+    "node-cache": "^5.1.2",
     "prisma": "^5.3.1",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
