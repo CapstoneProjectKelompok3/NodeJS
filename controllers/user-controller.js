@@ -7,6 +7,7 @@ import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
 import detailService from "../services/user/detail-service.js";
 import passChangeServices from "../services/user/updatePass-services.js";
+import verifyEmailServices from "../services/user/verify-email-services.js";
 import resetPassServices from "../services/user/resetPass-services.js";
 
 export const fetchAllUser = async (req, res) => {
@@ -155,6 +156,26 @@ export const verifyUser = async (req, res) => {
       status_code: 200,
       result: 'success',
       message: 'user has been activated'
+  })
+}
+
+export const verifyEmail = async (req, res) => {
+  const params = req.query.key
+  
+  try {
+    await verifyEmailServices(params)
+  } catch (err) {
+    return res.status(err.code).json({
+      status_code: err.code,
+      result: err.result,
+      message: err.message
+    })
+  }
+
+  return res.json({
+    status_code: 200,
+    result: 'success',
+    message: 'Email successfully verified!'
   })
 }
 

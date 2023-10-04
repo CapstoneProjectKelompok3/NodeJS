@@ -1,12 +1,10 @@
 import 'dotenv/config'
-import NodeCache from 'node-cache'
 import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
 import { userRegister } from '../../repositories/user.js'
 import { documentRegister } from '../../repositories/document.js'
 import { sendRegisterMail } from '../../repositories/mail.js'
-
-const tempCache = new NodeCache()
+import cache from '../../config/cache.js'
 
 export default async (request) => {
     if(request.level === 'admin') request.is_activated = true
@@ -23,7 +21,7 @@ export default async (request) => {
 
         // create a cache
         const uuid = uuidv4()
-        tempCache.set(uuid, decoded, 30 * 60) // cache expired in 30 minutes
+        cache.set(uuid, decoded, 30 * 60) // cache expired in 30 minutes
 
         sendRegisterMail(user.email, uuid)
     } catch (err) {

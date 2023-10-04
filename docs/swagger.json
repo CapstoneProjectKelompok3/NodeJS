@@ -398,6 +398,67 @@
         }
       }
     },
+    "/users/verify-email?key=random-string": {
+      "put": {
+        "tags": ["User"],
+        "description": "Verify email user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "description": "random string that contains unique data email user",
+            "value": "af55e2d-416b-4987-b7d5-a7af778ed9b242",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 200,
+                  "result": "success",
+                  "message": "Email successfully verified!"
+                  }
+              }
+            }
+          },
+          "400": {
+            "description": "missing params key",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 400,
+                  "result": "bad request",
+                  "message": "Key params does not provided"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "invalid token or expired",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status_code": 403,
+                  "result": "forbidden",
+                  "message": "Invalid key or key already expired"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/update": {
       "put": {
         "description": "Update User yang sedang login",
