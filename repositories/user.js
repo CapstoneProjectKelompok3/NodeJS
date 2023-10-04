@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import 'dotenv/config'
 import bcrypt from 'bcrypt'
+import generator from 'generate-password';
 const prisma = new PrismaClient();
 
 export const getUser = async (userId) => {
@@ -129,6 +130,27 @@ export const passChange = async (request) => {
     throw error;
   }
 };
+
+export const resetPassword = async (request) => {
+  let newPassword = generator.generate({
+    length:10,
+    numbers: true
+  });
+  let hashPassword = await bcrypt.hash(newPassword, 10);
+  try {
+    await prisma.user.update({
+      where: {
+        email: request.body.email,
+      },
+      data: {
+        password: hashPassword,
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+  return newPassword;
+}
 
 export const userLogin = async (request) => {
   let data;
