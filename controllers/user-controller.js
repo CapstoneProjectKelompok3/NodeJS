@@ -145,9 +145,9 @@ export const verifyEmail = async (req, res) => {
   try {
     await verifyEmailServices(params)
   } catch (err) {
-    return res.status(400).json({
-      status_code: 400,
-      result: 'bad request',
+    return res.status(err.code).json({
+      status_code: err.code,
+      result: err.result,
       message: err.message
     })
   }
