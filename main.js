@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(limit, apiRouter);
+app.use(apiRouter);
 
 // Menangani koneksi socket
 io.on("connection", (socket) => {
