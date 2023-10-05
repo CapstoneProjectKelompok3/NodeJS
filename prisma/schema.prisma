@@ -37,7 +37,7 @@ model Document {
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int      @unique
   fullname   String?  @db.VarChar(255)
-  nik        String   @db.VarChar(255)
+  nik        String   @unique @db.VarChar(255)
   phone      String?  @db.VarChar(50)
   gender     Gender?
   created_at DateTime @default(now())

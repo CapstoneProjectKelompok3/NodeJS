@@ -211,3 +211,11 @@ export const userDelete = async (userId) => {
     throw err.meta.cause;
   }
 };
+
+export const userForceDelete = async (userId) => {
+  await prisma.user.delete({
+    where: {
+      id: userId
+    }
+  })
+}
