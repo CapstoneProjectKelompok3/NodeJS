@@ -1,24 +1,14 @@
-import express from "express";
-import cors from "cors";
-import "dotenv/config";
-import apiRouter from "./routers/api-router.js";
-import http from "http";
-import { sendMessage } from "./controllers/message-controller.js";
+import express from 'express'
+import cors from 'cors'
+import apiRouter from './routers/api-router.js'
 
-const app = express();
-const server = http.createServer(app);
-import { Server } from "socket.io";
-const io = new Server(server, {
-  cors: {
-    origin: "https://ecci.vercel.app",
-  },
-});
+const app = express()
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(cors())
 
-app.use(apiRouter);
+app.use(apiRouter)
 
 // Menangani koneksi socket
 io.on("connection", (socket) => {
@@ -55,6 +45,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.SERVER_PORT, () => {
-  console.log(`server started on port ${process.env.SERVER_PORT}`);
-});
+export default app
