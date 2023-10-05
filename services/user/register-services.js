@@ -26,10 +26,7 @@ export default async (request) => {
 
 		sendRegisterMail(user.email, uuid)
 	} catch (err) {
-		if(err.code == "P2002" && err.meta.target == "documents_nik_key"){
-			console.log('document gagal', user);
-			await userForceDelete(user.id)
-		}
+		if(err.code == "P2002" && err.meta.target == "documents_nik_key") await userForceDelete(user.id)
 		throw err
 	}
 }
