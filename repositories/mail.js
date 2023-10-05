@@ -85,7 +85,7 @@ export const registerMessage = (uuid) => {
 				terlebih dahulu dengan meng-klik tombol di bawah ini.</p>
 
 				<button>
-					<a href='${process.env.EMAIL_VERIF_URL}?key=${uuid}'>Verifikasi akun</a>
+					<a href='${process.env.EMAIL_VERIF_URL}/${uuid}'>Verifikasi akun</a>
 				</button>
 
 				<p>Harap segera menyelesaikan pendaftaran akun anda, link diatas akan segera kadaluarsa dalam waktu <b>30 Menit.</b></p>

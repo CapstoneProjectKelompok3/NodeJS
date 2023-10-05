@@ -11,7 +11,6 @@ export const getUser = async (userId) => {
         id: userId,
       },
     });
-
     return data;
   } catch (err) {
     throw err;
@@ -169,16 +168,16 @@ export const userLogin = async (request) => {
 
 export const userVerify = async (userId) => {
   try {
-      await prisma.user.update({
-          where: {
-              id: userId
-          },
-          data: {
-              is_activated: true
-          }
-      })
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        is_activated: true,
+      },
+    });
   } catch (err) {
-      throw err.meta.cause
+    throw err.meta.cause;
   }
 };
 
@@ -211,3 +210,11 @@ export const userDelete = async (userId) => {
     throw err.meta.cause;
   }
 };
+
+export const userForceDelete = async (userId) => {
+  await prisma.user.delete({
+    where: {
+      id: userId
+    }
+  })
+}

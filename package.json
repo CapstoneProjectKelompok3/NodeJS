@@ -18,7 +18,9 @@
     "jsonwebtoken": "^9.0.2",
     "mailer": "^0.6.6",
     "node-cache": "^5.1.2",
+    "nodemailer": "^6.9.5",
     "prisma": "^5.3.1",
+    "socket.io": "^4.7.2",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1"
   },
