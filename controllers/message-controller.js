@@ -2,6 +2,7 @@ import roomService from "../services/message/newmessage-service.js";
 import messageService from "../services/message/message-service.js";
 import getroomService from "../services/message/getroom-service.js";
 import getmessageService from "../services/message/getmessage-service.js";
+import backupmessageService from "../services/message/backupmessage-service.js";
 
 export const roomMessage = async (req, res) => {
   try {
@@ -68,5 +69,23 @@ export const sendMessage = async (request) => {
     console.log("berhasil kirim chat");
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const backupMessage = async (req, res) => {
+  try {
+    // buat room baru dulu
+    let backup = await backupmessageService(req);
+    return res.status(200).json({
+      status_code: 200,
+      result: "success",
+      message: "Succes backup message",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status_code: 400,
+      result: "bad request",
+      message: error.message,
+    });
   }
 };
