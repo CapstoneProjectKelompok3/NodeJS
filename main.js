@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import rateLimit from 'express-rate-limit'
-import 'dotenv/config'
 import apiRouter from './routers/api-router.js'
 
 const app = express()
@@ -25,6 +24,4 @@ app.use(cors())
 
 app.use(limit, apiRouter)
 
-app.listen(process.env.SERVER_PORT, () => {
-   console.log(`server started on port ${process.env.SERVER_PORT}`)
-})
+export default app
