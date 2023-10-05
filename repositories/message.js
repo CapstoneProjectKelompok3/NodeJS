@@ -1,5 +1,38 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import { Message } from "../models/message.js";
+
+export const createBackupMessageMongoodb = async (
+  room,
+  adminId,
+  userId,
+  message
+) => {
+  try {
+    await Message.create({
+      room: room,
+      adminId: adminId,
+      userId: userId,
+      message: message,
+    });
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteRoom = async (roomId) => {
+  try {
+    await prisma.chatRoom.delete({
+      where: {
+        id: Number(roomId),
+      },
+    });
+    return true;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const createRoom = async (userId) => {
   let room;
@@ -43,6 +76,20 @@ export const getAllRoom = async (request) => {
   return room;
 };
 
+export const getRoomAdminUser = async (userId, adminId) => {
+  let room;
+  try {
+    room = await prisma.chatRoom.findFirst({
+      where: {
+        AND: [{ userId: Number(userId) }, { adminId: Number(adminId) }],
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+  return room;
+};
+
 export const getAllRoomAdmin = async (request) => {
   let room;
   try {
@@ -50,11 +97,31 @@ export const getAllRoomAdmin = async (request) => {
       where: {
         adminId: request,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   } catch (error) {
     throw error;
   }
   return room;
+};
+
+export const getMessagebyRoom = async (roomId) => {
+  let message;
+  try {
+    message = await prisma.message.findMany({
+      where: {
+        roomId: roomId,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+  return message;
 };
 
 export const sendMessage = async (content, roomId, senderId) => {
@@ -71,6 +138,18 @@ export const sendMessage = async (content, roomId, senderId) => {
     throw error;
   }
   return message;
+};
+
+export const deleteMessage = async (idMessage) => {
+  try {
+    await prisma.message.delete({
+      where: {
+        id: Number(idMessage),
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getMessage = async (roomId) => {
@@ -107,7 +186,6 @@ export const adminCount = async (request) => {
         },
       },
     });
-    console.log(find);
   } catch (error) {
     throw error;
   }

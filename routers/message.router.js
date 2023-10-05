@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  backupMessage,
   getMessage,
   getRoom,
   roomMessage,
@@ -11,6 +12,7 @@ const router = express.Router();
 router.post("/newmessage", verifyToken, roomMessage);
 router.get("/getroom", verifyTokenAdmin, getRoom);
 router.get("/getmessage/:roomid", verifyToken, getMessage);
-router.post("/sendmessage/:roomid", verifyToken, sendMessage);
+// router.post("/sendmessage/:roomid", verifyToken, sendMessage);
+router.put("/backupmessage", backupMessage);
 
 export default router;
