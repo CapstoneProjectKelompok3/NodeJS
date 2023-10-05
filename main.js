@@ -1,26 +1,11 @@
 import express from "express";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
 import "dotenv/config";
 import apiRouter from "./routers/api-router.js";
 import http from "http";
 import { sendMessage } from "./controllers/message-controller.js";
 
 const app = express();
-const limit = rateLimit({
-  windowMs: 1000 * 60 * 15, // 15 minutes,
-  limit: 100,
-  standardHeaders: "draft-7",
-  legacyHeaders: false,
-  message: function (req, res) {
-    res.status(429).json({
-      status_code: 429,
-      result: "too many request",
-      message: `max request per IP is ${this.limit} request per 1 hour(s)`,
-    });
-  },
-});
-
 const server = http.createServer(app);
 import { Server } from "socket.io";
 const io = new Server(server, {
