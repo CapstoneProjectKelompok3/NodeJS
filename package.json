@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon main.js",
+    "dev": "nodemon server.js",
     "test": "jest --config --detectOpenHandles"
   },
   "type": "module",
