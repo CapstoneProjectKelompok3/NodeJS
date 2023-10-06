@@ -9,7 +9,7 @@ import userMessage from "./services/socket.io/userMessage.js";
 import adminMessage from "./services/socket.io/adminMessage.js";
 
 const app = express();
-const server = http.createServer(app);
+export const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "https://ecci.vercel.app",
