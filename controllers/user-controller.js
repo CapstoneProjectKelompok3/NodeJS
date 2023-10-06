@@ -11,19 +11,22 @@ import verifyEmailServices from "../services/user/verify-email-services.js";
 import resetPassServices from "../services/user/resetPass-services.js";
 
 export const fetchAllUser = async (req, res) => {
-  const user = await fetchService(req);
+  const data = await fetchService(req);
 
-  if(req.query.page && !user.length) return res.status(404).json({
-    status_code: 404,
-    result: 'not found',
-    message: 'record data not found'
-  });
+  if (req.query.page && !data.users.length) {
+    return res.status(404).json({
+      status_code: 404,
+      result: 'not found',
+      message: 'record data not found'
+    });
+  }
 
   return res.json({
     status_code: 200,
     result: 'success',
     message: 'successfully fetch data user',
-    data: user
+    pagination: data.pagination,
+    data: data.users,
   });
 }
 
