@@ -11,7 +11,7 @@ const app = express();
 export let server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://ecci.vercel.app/",
+    origin: "https://ecci.vercel.app",
   },
 });
 app.use(express.json());
