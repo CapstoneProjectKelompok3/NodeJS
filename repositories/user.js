@@ -31,14 +31,13 @@ export const detailsUser = async (userId) => {
   return data;
 };
 
-export const fetchUser = async (level, skip, take) => {
+export const fetchUser = async (level, skip) => {
   const data = await prisma.user.findMany({
     where: {
       level: level,
       is_deleted: false,
     },
     skip: skip,
-    take: take,
     select: {
       id: true,
       email: true,
