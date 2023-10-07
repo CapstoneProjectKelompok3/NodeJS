@@ -10,10 +10,10 @@ export const verifyToken = (req, res, next) => {
       message: "Unauthorized: You must log in first.",
     });
   }
-
   jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
     if (err) return res.sendStatus(403);
     req.user = decoded;
+    req.token = token
     next();
   });
 };
