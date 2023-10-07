@@ -1,3 +1,4 @@
+import createEmergency from "../../helper/api/create-emergency.js";
 import {
   createRoom,
   adminCount,
@@ -39,6 +40,9 @@ export default async (request) => {
     }
 
     let newUpdateRoom = await updateRoom(room.id, result[0], `room ${room.id}`);
+
+    // create emergency after romm chat has been created
+    await createEmergency(result[0], request)
 
     let messageNew = await sendMessage(
       request.body.message,
