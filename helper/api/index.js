@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 export default (token) => {
   return axios.create({
-    baseURL: BASE_URL_SERVICE,
+    baseURL: BASE_URL,
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': `application/json`
