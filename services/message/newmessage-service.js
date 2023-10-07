@@ -52,7 +52,6 @@ export default async (request) => {
     let getAdminRoom = await getUser(result[0]);
     message = { roomId: room.id, admin: getAdminRoom.email };
   } catch (error) {
-    console.log(error);
     throw error;
   }
   return message;
