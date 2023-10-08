@@ -83,12 +83,13 @@ model Message {
 // models/ChatRoom.prisma
 
 model ChatRoom {
-  id         Int       @id @default(autoincrement())
-  name       String?
-  messages   Message[]
-  userId     Int
-  adminId    Int?
-  createdAt  DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  is_deleted Boolean   @default(false)
+  id          Int       @id @default(autoincrement())
+  name        String?
+  messages    Message[]
+  userId      Int
+  adminId     Int?
+  emergencyId Int?
+  createdAt   DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  is_deleted  Boolean   @default(false)
 }
