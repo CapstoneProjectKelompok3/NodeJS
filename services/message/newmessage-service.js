@@ -8,6 +8,7 @@ import {
   getAllAdminId,
   getAllRoom,
   updateRoom,
+  deleteRoom,
 } from "../../repositories/message.js";
 import { getUser } from "../../repositories/user.js";
 
@@ -36,13 +37,14 @@ export default async (request) => {
     });
 
     if (result.length < 1) {
+      await deleteRoom(room.id);
       throw new Error("Admin is busy right now, please try again later.");
     }
 
     let newUpdateRoom = await updateRoom(room.id, result[0], `room ${room.id}`);
 
     // create emergency after romm chat has been created
-    await createEmergency(result[0], request)
+    // await createEmergency(result[0], request);
 
     let messageNew = await sendMessage(
       request.body.message,
