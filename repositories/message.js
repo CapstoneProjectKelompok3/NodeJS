@@ -49,7 +49,7 @@ export const createRoom = async (userId) => {
   return room;
 };
 
-export const updateRoom = async (idRoom, adminId, name) => {
+export const updateRoom = async (idRoom, adminId, name, emergencyId) => {
   try {
     await prisma.chatRoom.update({
       where: {
@@ -58,6 +58,7 @@ export const updateRoom = async (idRoom, adminId, name) => {
       data: {
         adminId: adminId,
         name: name,
+        emergencyId: emergencyId
       },
     });
   } catch (error) {

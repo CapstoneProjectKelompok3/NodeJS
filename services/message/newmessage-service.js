@@ -41,10 +41,10 @@ export default async (request) => {
       throw new Error("Admin is busy right now, please try again later.");
     }
 
-    let newUpdateRoom = await updateRoom(room.id, result[0], `room ${room.id}`);
+    const emergency = await createEmergency(result[0], request);
+    let newUpdateRoom = await updateRoom(room.id, result[0], `room ${room.id}`, emergency.data.data.id);
 
     // create emergency after romm chat has been created
-    // await createEmergency(result[0], request);
 
     let messageNew = await sendMessage(
       request.body.message,
