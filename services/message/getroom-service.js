@@ -9,7 +9,7 @@ export default async (request) => {
 
     let maproom = room.map(async (item) => {
       const get = await getUser(item.userId);
-      datas.push({ username: get.username, idRoom: item.id });
+      datas.push({ username: get.username, idRoom: item.id, emergencyId: item.emergencyId });
     });
 
     const datasss = await Promise.all(maproom);
