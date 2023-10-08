@@ -1,43 +1,24 @@
-import axios from "axios";
+import getEmergencyApi from '../../helper/api/get-emergency.js'
 import { createFeedback } from "../../repositories/feedback.js";
 import { getUser } from "../../repositories/user.js";
 
-export default async (request) => {
+export default async (req) => {
   try {
-    const authHeader = request.headers["authorization"];
-    let token = authHeader && authHeader.split(" ")[1];
-
-    const findUser = await getUser(Number(request.params.userId));
+    const findUser = await getUser(Number(req.params.userId));
     if (!findUser) {
-      throw new Error(`User with id ${request.params.userId} not found.`);
+      throw new Error(`User with id ${req.params.userId} not found.`);
     }
 
-    await axios
-      .get(
-        `${process.env.PROTOKOL_HTTP}/emergencies/${request.body.emergencies_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then(async (response) => {
-        const data = await createFeedback(request);
-        return true;
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 500) {
-          throw new Error(
-            `Emergencies id ${request.body.emergencies_id} Not Found`
-          );
-        } else if (err.code === "P2002") {
-          throw new Error(
-            `Feedback for this emergencies ID has already been created.`
-          );
-        } else {
-          throw err;
-        }
-      });
+    const request = await getEmergencyApi(req)
+    if(request.code === 'ERR_BAD_RESPONSE') throw new Error("Emergencies id not found")
+
+    try {
+      await createFeedback(req)
+    } catch (err) {
+      if(err.code === "P2002" && err.meta.target === "feedback_emergencies_id_key") {
+        throw new Error("Feedback for this emergencies ID already exist")
+      }
+    }
   } catch (err) {
     throw err;
   }

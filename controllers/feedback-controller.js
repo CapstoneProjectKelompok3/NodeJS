@@ -2,7 +2,7 @@ import feedBackService from "../services/feedback/create-service.js";
 
 export const userFeedback = async (req, res) => {
   try {
-    const create = await feedBackService(req);
+    await feedBackService(req);
 
     return res.status(200).json({
       status_code: 200,
