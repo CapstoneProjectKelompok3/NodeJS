@@ -15,7 +15,7 @@
       "post": {
         "description": "Login as user.",
         "parameters": [],
-        "tags": ["Login"],
+        "tags": ["User"],
         "requestBody": {
           "required": true,
           "content": {
@@ -41,21 +41,15 @@
             "description": "OK",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status_code": {
-                      "type": "number",
-                      "example": 400
+                "example": {
+                  "status_code": 200,
+                  "result": "success",
+                  "data": {
+                    "user": {
+                      "id": 2,
+                      "level": "admin"
                     },
-                    "result": {
-                      "type": "string",
-                      "example": "Success"
-                    },
-                    "data": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJyYWppaEBnbWFpbC5jb20iLCJsZXZlbCI6InVzZXIiLCJ1c2VybmFtZSI6InJhamloayIsImlhdCI6MTY5NTg2NDYxNCwiZXhwIjoxNjk1OTUxMDE0fQ.zi8Tsvtt0T-baWsHT43xQTJjKX4UY47tv5l4T3Zd7jg"
-                    }
+                    "token": "some random token"
                   }
                 }
               }
@@ -104,10 +98,10 @@
         }
       }
     },
-    "/user/register": {
+    "/users/register": {
       "post": {
         "description": "Register User dan Admin",
-        "tags": ["Register"],
+        "tags": ["User"],
         "requestBody": {
           "required": true,
           "content": {

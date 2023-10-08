@@ -15,7 +15,7 @@ export default async (request) => {
       throw new Error(
         "Invalid Password. Please check your password and try again."
       );
-    } else if (data.is_activated === false) {
+    } else if (data.is_activated === false && data.level === "user") {
       throw new Error("Pending Admin Approval.");
     } else {
       token = jwt.sign(
@@ -28,7 +28,16 @@ export default async (request) => {
         process.env.TOKEN_SECRET,
         { expiresIn: "24h" }
       );
-      return token;
+
+      const response = {
+        user: {
+          id: data.id,
+          level: data.level,
+        },
+        token: token,
+      };
+
+      return response;
     }
   } catch (err) {
     throw err;

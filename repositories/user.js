@@ -1,25 +1,43 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import 'dotenv/config'
+import bcrypt from 'bcrypt'
+import generator from 'generate-password';
 const prisma = new PrismaClient();
 
 export const getUser = async (userId) => {
+  try {
+    const data = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const detailsUser = async (userId) => {
   const data = await prisma.user.findFirst({
     where: {
-      id: userId
-    }
-  })
-  
-  return data
-}
+      id: userId,
+    },
+    include: {
+      document: true,
+    },
+  });
+  delete data["password"];
 
-export const fetchUser = async (level, skip, take) => {
+  return data;
+};
+
+export const fetchUser = async (level, skip) => {
   const data = await prisma.user.findMany({
     where: {
       level: level,
-      is_deleted: false
+      is_deleted: false,
     },
     skip: skip,
-    take: take,
     select: {
       id: true,
       email: true,
@@ -27,26 +45,24 @@ export const fetchUser = async (level, skip, take) => {
       level: true,
       is_activated: true,
       created_at: true,
-      updated_at: true
-    }
+      updated_at: true,
+    },
   });
 
   return data;
-}
+};
 
 export const userRegister = async (request) => {
-  const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(request.password, salt);
-
-  let user
+  let user;
 
   try {
     user = await prisma.user.create({
       data: {
         email: request.email,
         username: request.username,
-        password: hashPassword,
-        level: request.level
+        password: await bcrypt.hash(request.password, 10),
+        level: request.level,
+        is_activated: request.is_activated
       }
     })
   } catch (err) {
@@ -54,21 +70,22 @@ export const userRegister = async (request) => {
   }
 
   return user
-};
+}
 
 export const userUpdate = async (request) => {
-  let updatedUser
+  let updatedUser;
   try {
     // Membuat objek kosong untuk menampung data baru
     const data = {};
 
     // Membuat array dari nama-nama field yang ingin diperbarui
-    const fieldsToUpdate = ['email', 'username'];
+    const fieldsToUpdate = ["email", "username"];
 
     // Menggunakan forEach untuk memasukkan data dari request body
     fieldsToUpdate.forEach((fieldName) => {
       // Menguji masing-masing field di dalam body untuk dimasukkan ke dalam objek data
-      if (request.body[fieldName]) { // Use request.body[fieldName] to access the request body
+      if (request.body[fieldName]) {
+        // Use request.body[fieldName] to access the request body
         data[fieldName] = request.body[fieldName];
       }
     });
@@ -85,6 +102,54 @@ export const userUpdate = async (request) => {
   return updatedUser;
 };
 
+export const passChange = async (request) => {
+  let data;
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(request.body.newPass, salt);
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: request.user.email,
+      }
+    });
+    const match = await bcrypt.compare(request.body.currentPass, user.password);
+    if (match) {
+      data = await prisma.user.update({
+        where: {
+          email: request.user.email,
+
+        },
+        data: {
+          password: hashPassword,
+        },
+      });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPassword = async (request) => {
+  let newPassword = generator.generate({
+    length:10,
+    numbers: true
+  });
+  let hashPassword = await bcrypt.hash(newPassword, 10);
+  try {
+    await prisma.user.update({
+      where: {
+        email: request.body.email,
+      },
+      data: {
+        password: hashPassword,
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+  return newPassword;
+}
+
 export const userLogin = async (request) => {
   let data;
   try {
@@ -100,29 +165,26 @@ export const userLogin = async (request) => {
   return data;
 };
 
-
 export const userVerify = async (userId) => {
-  let user
-
   try {
-      user = await prisma.user.update({
-          where: {
-              id: userId
-          },
-          data: {
-              is_activated: true
-          }
-      })
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        is_activated: true,
+      },
+    });
   } catch (err) {
-      throw err
+    throw err.meta.cause;
   }
-}
+};
 
-export const userDelete = async (userId) => {
+export const emailVerify = async (userId) => {
   try {
     await prisma.user.update({
       data: {
-        is_deleted: true
+        email_activated: true
       },
       where: {
         id: userId
@@ -131,4 +193,27 @@ export const userDelete = async (userId) => {
   } catch (err) {
     throw err.meta.cause
   }
+}
+
+export const userDelete = async (userId) => {
+  try {
+    await prisma.user.update({
+      data: {
+        is_deleted: true,
+      },
+      where: {
+        id: userId,
+      },
+    });
+  } catch (err) {
+    throw err.meta.cause;
+  }
+};
+
+export const userForceDelete = async (userId) => {
+  await prisma.user.delete({
+    where: {
+      id: userId
+    }
+  })
 }

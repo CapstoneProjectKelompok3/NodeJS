@@ -1,3 +1,11 @@
 # server configuration
 SERVER_PORT=
 DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+TOKEN_SECRET=
+EMAIL_VERIF_URL=http://localhost:3000/users/verify-email
+MONGODB_URL=mongodb+srv://username:password1@url_mongodb_atlas/database
+BASE_URL=https://belanjalagiyuk.shop //endpoint golang
+
+# webmail configuration
+EMAIL_USER=
+GOOGLE_APP_PASSWORD=https://support.google.com/accounts/answer/185833?hl=en

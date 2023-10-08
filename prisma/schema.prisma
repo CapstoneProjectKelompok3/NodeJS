@@ -16,11 +16,13 @@ model User {
   username     String    @unique @db.VarChar(255)
   password     String    @db.VarChar(255)
   level        LevelUser @default(user)
+  email_activated Boolean   @default(false)
   is_activated Boolean   @default(false)
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
   is_deleted   Boolean   @default(false)
   document     Document?
+  messages     Message[]
 
   @@map("users")
 }
@@ -36,7 +38,7 @@ model Document {
   user       User     @relation(fields: [user_id], references: [id])
   user_id    Int      @unique
   fullname   String?  @db.VarChar(255)
-  nik        String   @db.VarChar(255)
+  nik        String   @unique @db.VarChar(255)
   phone      String?  @db.VarChar(50)
   gender     Gender?
   created_at DateTime @default(now())
@@ -53,13 +55,40 @@ enum Gender {
 
 model Feedback {
   id             Int      @id @default(autoincrement())
-  user_id        Int      @unique
+  user_id        Int
   content        String?  @db.VarChar(255)
   rating         Float
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
   is_deleted     Boolean  @default(false)
-  emergencies_id Int
+  emergencies_id Int      @unique
 
   @@map("feedback")
+}
+
+// models/Message.prisma
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  roomId     Int
+  room       ChatRoom @relation(fields: [roomId], references: [id])
+  senderId   Int // Menambahkan kolom senderId
+  sender     User     @relation(fields: [senderId], references: [id]) // Membuat relasi sender
+  createdAt  DateTime @default(now())
+  updated_at DateTime @updatedAt
+  is_deleted Boolean  @default(false)
+}
+
+// models/ChatRoom.prisma
+
+model ChatRoom {
+  id         Int       @id @default(autoincrement())
+  name       String?
+  messages   Message[]
+  userId     Int
+  adminId    Int?
+  createdAt  DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  is_deleted Boolean   @default(false)
 }
