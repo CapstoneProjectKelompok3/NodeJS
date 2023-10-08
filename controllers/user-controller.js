@@ -1,7 +1,7 @@
-import registerServices from "../services/user/register-services.js"
-import loginServices from "../services/user/login-services.js"
-import verifyServices from '../services/user/verify-services.js'
-import updateServices from '../services/user/update-services.js'
+import registerServices from "../services/user/register-services.js";
+import loginServices from "../services/user/login-services.js";
+import verifyServices from "../services/user/verify-services.js";
+import updateServices from "../services/user/update-services.js";
 import { Prisma } from "@prisma/client";
 import deleteService from "../services/user/delete-service.js";
 import fetchService from "../services/user/fetch-service.js";
@@ -16,40 +16,40 @@ export const fetchAllUser = async (req, res) => {
   if (req.query.page && !data.users.length) {
     return res.status(404).json({
       status_code: 404,
-      result: 'not found',
-      message: 'record data not found'
+      result: "not found",
+      message: "record data not found",
     });
   }
 
   return res.json({
     status_code: 200,
-    result: 'success',
-    message: 'successfully fetch data user',
+    result: "success",
+    message: "successfully fetch data user",
     pagination: data.pagination,
     data: data.users,
   });
-}
+};
 
 export const detailsUser = async (req, res) => {
-  let user
+  let user;
 
   try {
-    user = await detailService(req)
+    user = await detailService(req);
   } catch (err) {
     return res.status(404).json({
       status_code: 404,
-      result: 'not found',
-      message: 'record data not found'
-    })
+      result: "not found",
+      message: "record data not found",
+    });
   }
 
   return res.json({
     status_code: 200,
-    result: 'success',
-    message: 'successfully get data user',
-    data: user
-  })
-}
+    result: "success",
+    message: "successfully get data user",
+    data: user,
+  });
+};
 
 export const userRegister = async (req, res) => {
   try {
@@ -97,7 +97,7 @@ export const updateUser = async (req, res) => {
       status_code: 200,
       result: "success",
       message: "data berhasil diperbarui",
-      data: updatedUser
+      data: updatedUser,
     });
   } catch (error) {
     res.status(400).json({
@@ -122,7 +122,7 @@ export const updatePass = async (req, res) => {
   res.status(200).json({
     status_code: 200,
     result: "success",
-    message: "password anda berhasil diubah"
+    message: "password anda berhasil diubah",
   });
 };
 
@@ -143,60 +143,60 @@ export const resetPass = async (req, res) => {
     result: "success",
     message: `password reset success, password was sent to your email`,
   });
-}
+};
 
 export const verifyUser = async (req, res) => {
   try {
-      await verifyServices(req.params)
-  } catch (err) {
-      return res.status(err.code).json({
-          status_code: err.code,
-          result: err.result,
-          message: err.message
-      })
-  }
-
-  return res.json({
-      status_code: 200,
-      result: 'success',
-      message: 'user has been activated'
-  })
-}
-
-export const verifyEmail = async (req, res) => {
-  const params = req.query.key
-  
-  try {
-    await verifyEmailServices(params)
+    await verifyServices(req.params);
   } catch (err) {
     return res.status(err.code).json({
       status_code: err.code,
       result: err.result,
-      message: err.message
-    })
+      message: err.message,
+    });
   }
 
   return res.json({
     status_code: 200,
-    result: 'success',
-    message: 'Email successfully verified!'
-  })
-}
+    result: "success",
+    message: "user has been activated",
+  });
+};
+
+export const verifyEmail = async (req, res) => {
+  const params = req.query.key;
+
+  try {
+    await verifyEmailServices(params);
+  } catch (err) {
+    return res.status(err.code).json({
+      status_code: err.code,
+      result: err.result,
+      message: err.message,
+    });
+  }
+
+  return res.json({
+    status_code: 200,
+    result: "success",
+    message: "Email successfully verified!",
+  });
+};
 
 export const deleteuser = async (req, res) => {
   try {
-    await deleteService(req)
+    await deleteService(req);
   } catch (err) {
     return res.status(404).json({
       status_code: 404,
-      result: 'not found',
-      message: err
-    })
+      result: "not found",
+      message: err,
+    });
   }
 
   return res.json({
     status_code: 200,
-    result: 'success',
-    message: 'successfully deleted record data'
-  })
-}
+    result: "success",
+    message: "successfully deleted record data",
+  });
+};
